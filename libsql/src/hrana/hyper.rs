@@ -345,7 +345,7 @@ impl Conn for HranaStream<HttpSender> {
         for s in parse {
             let s = s?;
             c.count(s.kind);
-            stmts.push(Stmt::new(s.stmt, false));
+            stmts.push(Stmt::new(s.stmt, true));
         }
         let in_tx_scope = !self.is_autocommit() || c.begin_tx();
         let close = !in_tx_scope || c.end_tx();
@@ -379,7 +379,7 @@ impl Conn for HranaStream<HttpSender> {
                 ));
             }
 
-            stmts.push(Stmt::new(s.stmt, false));
+            stmts.push(Stmt::new(s.stmt, true));
         }
         let res = self
             .batch_inner(Batch::transactional(stmts), true)
